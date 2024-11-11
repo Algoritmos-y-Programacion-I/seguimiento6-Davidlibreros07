@@ -47,6 +47,9 @@ public class SpeciesExecutable {
 			case 3:
 				deleteSpecies();
 				break;
+			case 4:
+			    showSpecies();
+				break;
 			case 0:
 				System.out.println("Thanks for using our system");
 				stopFlag = true;
@@ -62,32 +65,176 @@ public class SpeciesExecutable {
 	}
 
 	public void registerSpecies() {
-
+		int typeOfFlora = 0;
+		int flowers = 0;
+		int fruits = 0;
+		int height = 0;
+		int typeOfFauna = 0;
+		int migrate = 0;
+		int weight = 0;
+		System.out.println("What is the type of the specie?" + "\n" +
+				"1. Flora" + "\n" +
+				"2. Fauna");
+		int typeOfSpecies = reader.nextInt();
+		reader.nextLine();
 		System.out.println("Type the new Species' name: ");
 		String name = reader.next();
 
 		System.out.println("Type the new Species' scientific name: ");
 		String scientificName = reader.next();
 
-		if (speciesController.registerSpecies(name, scientificName)) {
+		if (typeOfSpecies == 1) {
+			System.out.println("What is the type of flora?" + "\n" +
+					"1.land" + "\n" +
+					"2.aquatic");
+			typeOfFlora = reader.nextInt();
+			reader.nextLine();
+			System.out.println("the species have flowers?" + "\n" +
+					"1.yes" + "\n" +
+					"2.no");
+			flowers = reader.nextInt();
+			System.out.println("The species have fruits?" + "\n" +
+					"1.yes" + "\n" +
+					"2.no");
+			fruits = reader.nextInt();
+			System.out.println("What is its maximum height?");
+			height = reader.nextInt();
+			reader.nextLine();
+		} else if (typeOfSpecies == 2) {
+			System.out.println("What is the type?" + "\n" +
+					"1.bird" + "\n" +
+					"2.mammal" + "\n" +
+					"3.aquatic");
+			typeOfFauna = reader.nextInt();
+			reader.nextLine();
+			System.out.println("does this species migrate?" + "\n" +
+					"1.yes" + "\n" +
+					"2.no");
+			migrate = reader.nextInt();
+			System.out.println("What is its maximum weight?");
+			weight = reader.nextInt();
+			reader.nextLine();
+		}
 
-			System.out.println("Species registered successfully");
+		if (typeOfSpecies == 1
+				&& speciesController.registerSpecies(name, scientificName, typeOfFlora, flowers, fruits, height)) {
 
-		} else {
+			System.out.println("Species registered successfully!!!!");
 
-			System.out.println("Error, Species couldn't be registered");
+		} else if (typeOfSpecies == 2
+				&& speciesController.registerSpecies(name, scientificName, typeOfFauna, migrate, weight)) {
+
+			System.out.println("Species registered successfully!!!!!");
+
+		}
+
+		else {
+			System.out.println("Error, Species not registered :");
 		}
 
 	}
 
 	public void editSpecies() {
-
+		String newName = "";
+		String newScientificName = "";
+		int newTypeOfFlora = 0;
+		int newHeight = 0;
+		int newTypeOfFauna = 0;
+		int newWeight = 0;
+		
+		
 		System.out.println("Which Species do you want to edit?");
 
-		String query = speciesController.showSpeciesList();
+		String query = speciesController.showSpeciesEdit();
 
 		if (!query.equals("")) {
 			System.out.println(query);
+			System.out.println("Which one do you want to edit?");
+			int specieToEdit = reader.nextInt();
+			System.out.println("What is the type of species to be modified?");
+			System.out.println("1.flora" + "\n" + "2.fauna");
+			int typeOfSpecies = reader.nextInt();
+			reader.nextLine();
+			System.out.println("Choose :" + "\n" +
+					"1.Name" + "\n" +
+					"2.Scientific Name" + "\n" +
+					"3.Type");
+			if (typeOfSpecies == 1) {
+				System.out.println("4.Flowers" + "\n" +
+						"5.Fruits" + "\n" +
+						"6.Maximum Height");
+			} else if (typeOfSpecies == 2) {
+				System.out.println("4.Migratory" + "\n" +
+						"5.Maximum Weight");
+
+			}
+			int option = reader.nextInt();
+			reader.nextLine();
+			switch (option) {
+				case 1:
+					System.out.println("Type the new Name");
+					 newName = reader.nextLine();
+					 if(speciesController.modifySpecies(specieToEdit, option, newName, newScientificName, newTypeOfFlora, newHeight, newTypeOfFauna, newWeight)){
+						System.out.println("Species modified");
+					 }else{
+						 System.out.println("Error, Species couldn't be modified");
+					 }
+					 
+					break;
+				case 2:
+					System.out.println( "Type the new Scientific Name");
+					newScientificName = reader.nextLine();
+					if(speciesController.modifySpecies(specieToEdit, option, newName, newScientificName, newTypeOfFlora, newHeight, newTypeOfFauna, newWeight)){
+						System.out.println("Species modified");
+					 }else{
+						 System.out.println("Error, Species couldn't be modified");
+					 }
+					break;
+				case 3:
+				if (typeOfSpecies==2) {
+					System.out.println("Enter the new type of fauna"+"1.bird" + "\n" +
+					"2.mammal" + "\n" +
+					"3.aquatic");
+					newTypeOfFauna = reader.nextInt();
+					reader.nextLine();
+					if(speciesController.modifySpecies(specieToEdit, option, newName, newScientificName, newTypeOfFlora, newHeight, newTypeOfFauna, newWeight)){
+						System.out.println("Species modified");
+					 }else{
+						 System.out.println("Error, Species couldn't be modified");
+					 }
+				
+				}
+					
+					break;
+				case 4:
+				if(speciesController.modifySpecies(specieToEdit, option, newName, newScientificName, newTypeOfFlora, newHeight, newTypeOfFauna, newWeight)){
+					System.out.println("Species modified");
+				 }else{
+					 System.out.println("Error, Species couldn't be modified");
+				 }
+					break;
+				case 5:
+				if(speciesController.modifySpecies(specieToEdit, option, newName, newScientificName, newTypeOfFlora, newHeight, newTypeOfFauna, newWeight)){
+					System.out.println("Species modified");
+				 }else{
+					 System.out.println("Error, Species couldn't be modified");
+				 }
+					break;
+				case 6:
+				System.out.println("Type the new Maximum Height");
+					newHeight = reader.nextInt();
+					reader.nextLine();
+					if(speciesController.modifySpecies(specieToEdit, option, newName, newScientificName, newTypeOfFlora, newHeight, newTypeOfFauna, newWeight)){
+						System.out.println("Species modified");
+					 }else{
+						 System.out.println("Error, Species couldn't be modified");
+					 }
+					break;
+			
+				default:
+					break;
+			}
+
 
 			// ...
 
@@ -98,13 +245,20 @@ public class SpeciesExecutable {
 	}
 
 	public void deleteSpecies() {
-
+		int SpecieToDelete = 0;
 		System.out.println("Which Species do you want to delete?");
 
 		String query = speciesController.showSpeciesList();
 
 		if (!query.equals("")) {
 			System.out.println(query);
+			SpecieToDelete = reader.nextInt();
+			reader.nextLine();
+			if (speciesController.deleteSpecie(SpecieToDelete)) {
+				System.out.println("Species deleted successfully");
+			} else {
+				System.out.println("Error, Species couldn't be deleted");
+			}
 
 			// ...
 
@@ -122,6 +276,10 @@ public class SpeciesExecutable {
 
 		if (!query.equals("")) {
 			System.out.println(query);
+			reader.nextLine();
+			int specieToShow = reader.nextInt();
+			reader.nextLine();
+			System.out.println(speciesController.showSpecies(specieToShow));
 
 			// ...
 
